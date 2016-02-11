@@ -6,6 +6,8 @@ import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.widget.TextView;
 
+import junit.framework.Test;
+
 public class IntentReaderActivity extends Activity {
 
     public static final String TEXT_TO_TRANSFORM_KEY = "TEXT";
@@ -29,6 +31,14 @@ public class IntentReaderActivity extends Activity {
 
         //
         //
+        Intent intent = getIntent();
+        mode = intent.getIntExtra(MODE_OF_TRANSFORM_KEY, NORMAL);
+        text = intent.getStringExtra(TEXT_TO_TRANSFORM_KEY);
+        if (text == null) text = "default value";
+
+        text = transformText(text);
+
+        ((TextView)findViewById(R.id.intentText)).setText(text);
 
         //
         //

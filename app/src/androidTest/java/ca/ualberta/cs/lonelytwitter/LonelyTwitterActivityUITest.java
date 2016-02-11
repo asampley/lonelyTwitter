@@ -8,6 +8,8 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 
+import java.lang.reflect.Array;
+
 /**
  * Created by sajediba on 2/8/16.
  */
@@ -37,7 +39,20 @@ public class LonelyTwitterActivityUITest extends ActivityInstrumentationTestCase
 
     //
     //
+    @UiThreadTest
+    public void testMakeTweet() {
+        LonelyTwitterActivity lonelyTwitterActivity = (LonelyTwitterActivity)getActivity();
+        int oldLength = lonelyTwitterActivity.getAdapter().getCount();
+        makeTweet("Tweet1");
+        ArrayAdapter<Tweet> arrayAdapter = lonelyTwitterActivity.getAdapter();
+        Tweet lastItem = arrayAdapter.getItem(arrayAdapter.getCount() - 1);
+        int newLength = lonelyTwitterActivity.getAdapter().getCount();
 
+        assertTrue("No new tweet made!", newLength - oldLength == 1);
+        assertTrue("New element is not a Tweet", arrayAdapter.getItem(arrayAdapter.getCount() - 1) instanceof Tweet);
+        assertTrue("This is not the expected text", lastItem.getMessage().equals("Tweet1"));
+
+    }
     //
     //
 }
