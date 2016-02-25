@@ -58,7 +58,7 @@ public class ElasticsearchTweetController {
 
             // A HUGE ASSUMPTION IS ABOUT TO BE MADE
             // ONLY ONE STRING
-            String searchString = strings[0];
+            String searchString = "{\"query\":{\"match\":{\"message\":\"" + strings[0] + "\"}}}";
 
             Search search = new Search.Builder(searchString).addIndex("testing").addType("tweet").build();
             try {

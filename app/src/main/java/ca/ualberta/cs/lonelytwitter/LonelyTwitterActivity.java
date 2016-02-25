@@ -65,6 +65,28 @@ public class LonelyTwitterActivity extends Activity {
                 setResult(RESULT_OK);
             }
         });
+
+        Button clearButton = (Button)findViewById(R.id.search);
+        clearButton.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                String searchString = bodyText.getText().toString();
+                searchForTerm(searchString);
+                adapter.notifyDataSetChanged();
+            }
+        });
+    }
+
+    private void searchForTerm(String searchString)  {
+        ElasticsearchTweetController.GetTweetsTask getTweetsTask = new ElasticsearchTweetController.GetTweetsTask();
+        getTweetsTask.execute(searchString);
+        try {
+            tweets.clear();
+            tweets.addAll(getTweetsTask.get());
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        } catch (ExecutionException e) {
+            e.printStackTrace();
+        }
     }
 
     @Override
