@@ -30,6 +30,10 @@ public class LonelyTwitterActivity extends Activity {
         return adapter;
     }
 
+    private ImageButton pictureButton;
+    private Bitmap thumbnail;
+
+    static final int REQUEST_CAPTURING_IMAGE = 1234;
     /**
      * Called when the activity is first created.
      */
@@ -43,7 +47,15 @@ public class LonelyTwitterActivity extends Activity {
 
 
 	// http://developer.android.com/training/camera/photobasics.html
-
+        pictureButton = (ImageButton) findViewById(R.id.pictureButton);
+        pictureButton.setOnClickListener(new View.OnClickListener(){
+            public void onClick(View view){
+                Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+                if (intent.resolveActivity(getPackageManager()) != null) {
+                    startActivityForResult(intent, REQUEST_CAPTURING_IMAGE);
+                }
+            }
+        });
 
         saveButton = (Button) findViewById(R.id.saveButton);
         saveButton.setOnClickListener(new View.OnClickListener() {
@@ -54,7 +66,7 @@ public class LonelyTwitterActivity extends Activity {
 
                 tweets.add(latestTweet);
 
-
+                latestTweet.addThumbnail(thumbnail);
                 adapter.notifyDataSetChanged();
 
                 // Add the tweet to Elasticsearch
@@ -64,6 +76,9 @@ public class LonelyTwitterActivity extends Activity {
 
 	// http://stackoverflow.com/questions/11835251/remove-image-resource-of-imagebutton
 
+                bodyText.setText("");
+                pictureButton.setImageResource(android.R.color.transparent);
+                thumbnail = null;
 
                 setResult(RESULT_OK);
             }
@@ -95,10 +110,12 @@ public class LonelyTwitterActivity extends Activity {
 
 	// http://developer.android.com/training/camera/photobasics.html
 
-    protected void onActivityResult(int requestCode, int resultCode, Intent intent) {
-        //if (requestCode == REQUEST_CAPTURING_IMAGE && resultCode == RESULT_OK) {
-        //    Bundle extras;
-        //}
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent intent){
+        if (requestCode == REQUEST_CAPTURING_IMAGE && resultCode == RESULT_OK){
+            Bundle extras = intent.getExtras();
+            thumbnail = (Bitmap) extras.get("data");
+            pictureButton.setImageBitmap(thumbnail);
+        }
     }
-
 }
