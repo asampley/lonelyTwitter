@@ -64,7 +64,6 @@ public class LonelyTwitterActivity extends Activity {
 
 	// http://stackoverflow.com/questions/11835251/remove-image-resource-of-imagebutton
 
-
                 setResult(RESULT_OK);
             }
         });
@@ -94,11 +93,5 @@ public class LonelyTwitterActivity extends Activity {
     }
 
 	// http://developer.android.com/training/camera/photobasics.html
-
-    protected void onActivityResult(int requestCode, int resultCode, Intent intent) {
-        //if (requestCode == REQUEST_CAPTURING_IMAGE && resultCode == RESULT_OK) {
-        //    Bundle extras;
-        //}
-    }
 
 }
