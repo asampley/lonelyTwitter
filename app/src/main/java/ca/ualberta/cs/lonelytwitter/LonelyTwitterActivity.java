@@ -64,7 +64,7 @@ public class LonelyTwitterActivity extends Activity {
                 String text = bodyText.getText().toString();
                 NormalTweet latestTweet = new NormalTweet(text);
 
-                tweets.add(latestTweet);
+                tweets.add(0,latestTweet);
 
                 latestTweet.addThumbnail(thumbnail);
                 adapter.notifyDataSetChanged();
